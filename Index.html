@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    overflow: hidden;
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.active {
+    display: flex;
+    animation: fade 1s ease;
+}
+
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Button */
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #ff4b6e;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+    from {transform: translateY(100vh); opacity:1;}
+    to {transform: translateY(-10vh); opacity:0;}
+}
+
+/* Typing effect */
+.typing {
+    border-right: 2px solid white;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Moving NO button */
+#noBtn {
+    position: relative;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Screen 1: Loading -->
+<div class="screen active" id="screen1">
+    <h1>Loading... ❤️</h1>
+</div>
+
+<!-- Screen 2: Intro -->
+<div class="screen" id="screen2">
+    <h1>Hey... 💔</h1>
+    <p>I know you're upset with me</p>
+    <button onclick="next(3)">Continue</button>
+</div>
+
+<!-- Screen 3: Typing Apology -->
+<div class="screen" id="screen3">
+    <h2 id="typingText" class="typing"></h2>
+    <button onclick="next(4)">Next</button>
+</div>
+
+<!-- Screen 4: Emotional -->
+<div class="screen" id="screen4">
+    <h1>I'm really sorry... 😔</h1>
+    <p>I didn't mean to hurt you</p>
+    <button onclick="next(5)">One last thing...</button>
+</div>
+
+<!-- Screen 5: Decision -->
+<div class="screen" id="screen5">
+    <h2>Will you forgive me? ❤️</h2>
+    <button onclick="yes()">Yes 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">No 😢</button>
+</div>
+
+<!-- Screen 6: Final -->
+<div class="screen" id="screen6">
+    <h1>Thank you ❤️</h1>
+    <p>I promise I'll do better this time.</p>
+</div>
+
+<script>
+let current = 1;
+
+function next(n) {
+    document.getElementById("screen" + current).classList.remove("active");
+    document.getElementById("screen" + n).classList.add("active");
+    current = n;
+}
+
+/* Auto move from loading */
+setTimeout(() => next(2), 2000);
+
+/* Typing animation */
+let text = "You mean everything to me... and losing you scares me.";
+let i = 0;
+function type() {
+    if (i < text.length) {
+        document.getElementById("typingText").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 40);
+    }
+}
+setTimeout(type, 2500);
+
+/* YES button */
+function yes() {
+    next(6);
+}
+
+/* NO button moves */
+function moveNo() {
+    let btn = document.getElementById("noBtn");
+    btn.style.top = Math.random() * 100 - 50 + "px";
+    btn.style.left = Math.random() * 100 - 50 + "px";
+}
+
+/* Floating hearts */
+setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (10 + Math.random() * 20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}, 300);
+</script>
+
+</body>
+</html>
